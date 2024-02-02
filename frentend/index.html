@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <body>
+    <div class="main">
+    <form class="form" onsubmit="Signup(); return false ">
+        <p class="title">Register </p>
+        <p class="message">Signup now and get full access to our Data_Base. </p>
+            <div class="flex">
+            <label>
+                <input required placeholder="" type="text" id="fname" class="input">
+                <span>Firstname</span>
+            </label>
+    
+            <label>
+                <input required placeholder="" type="text" id="lname" class="input">
+                <span>Lastname</span>
+            </label>
+        </div>  
+                
+        <label>
+            <input required placeholder="" type="email" id="email" class="input">
+            <span>Email</span>
+        </label> 
+            
+        <label>
+            <input required  placeholder="" type="password" id="password" class="input">
+            <span>Password</span>
+        </label>
+        <label>
+            <input required  placeholder="" type="password" id="checkpassword" class="input">
+            <span>Confirm password</span>
+        </label>
+        <button class="submit" value="Signup">Submit</button>
+        <p class="signin" id="message"></p>
+        
+        
+    </form>
+</div>
+<div>
+    <div  style="display: flex; justify-content: center;"> <button onclick="GetAllUser()" class="submit">Get All Users</button></div>
+    <p id="allList" style="display: flex; justify-content: center;"></p>
+</div>
+<script>
+    
+    function Signup() {
+
+var firstName = document.getElementById('fname').value;
+var lastName = document.getElementById('lname').value;
+var email = document.getElementById('email').value;
+var password = document.getElementById('password').value;
+var repeatPassword = document.getElementById('checkpassword').value;
+
+if (password !== repeatPassword) {
+    document.querySelector("#message").innerHTML = 'Passwords do not match, please try again';
+    return;
+}
+
+axios.post('http://localhost:5000/api/signup', {
+
+    firstName,
+    lastName,
+    email,
+    password,
+
+})
+    .then(function (response) {
+        console.log(response.data);
+        document.querySelector("#message").innerHTML = response.data.message;
+    })
+    .catch(function (error) {
+        console.log(error.response.data);
+        document.querySelector("#message").innerHTML = error.response.data.message;
+    });
+}
+
+    
+
+
+
+
+    function GetAllUser() {
+
+axios.get('http://localhost:5000/api/users')
+    .then(function (response) {
+        console.log(response.data);
+
+        response.data.map((eachUser) => {
+            document.querySelector("#allList").innerHTML +=
+                `FirstName:${eachUser.firstName}, lastName: ${eachUser.lastName},  Email: ${eachUser.email} </br>   </br>`
+        })
+
+    })
+    .catch(function (error) {
+        console.log(error.response.data);
+        document.querySelector("#message").innerHTML = error.response.data.message;
+    });
+}
+    
+    </script>
+</body>
+
+</html>
