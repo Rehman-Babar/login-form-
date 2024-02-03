@@ -60,7 +60,7 @@ if (password !== repeatPassword) {
     return;
 }
 
-axios.post('http://localhost:5000/api/signup', {
+axios.post('https://loginform-backend.onrender.com/api/signup', {
 
     firstName,
     lastName,
@@ -85,7 +85,7 @@ axios.post('http://localhost:5000/api/signup', {
 
     function GetAllUser() {
 
-axios.get('http://localhost:5000/api/users')
+axios.get('https://loginform-backend.onrender.com/api/users')
     .then(function (response) {
         console.log(response.data);
 
